@@ -5,7 +5,6 @@ class KVLBucket:
         self.segment = segment
         self.index = self.segment.createIndex()
 
-
     def write(self,key,value):
         #1 append the new element as key:value at the end of segment file
         #2 update in memory index with key:offset
@@ -18,10 +17,10 @@ class KVLBucket:
 
     def read(self,key):
         #1 get offset for key location in the segment from the in-memory index
-        #2 if we get a valid offset, seek into the segment and return value
+        #2 if we get a valid offset, seek into the segment and return [key,value]
         elementOffset = self.index[str(key)]
-        element = self.segment.retrieveElement(elementOffset)
-        return element
+        element = self.segment.retrieveValue(elementOffset)
+        return [key,element]
 
     def delete(self,key):
         #logical deletion only, it will place a tombstone in the segment for the key
@@ -30,6 +29,7 @@ class KVLBucket:
         #2 updates in-memory index with new offset
         tombstone = self.segment.getTombstoneValue()
         self.write(key,tombstone)
-        return  
+        return 
+
 
 

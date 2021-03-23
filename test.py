@@ -1,5 +1,6 @@
 from KVLSegment import KVLSegmentJSON
 from KVLBucket import KVLBucket
+from KVLJanitor import KVLJanitor
 
 import random
 import math
@@ -53,7 +54,7 @@ if testBucket:
     print (index)
 
 #CreateIndex with random writes and perform Random Reads on new bucket created from file
-testCreateIndex = True
+testCreateIndex = False
 if testCreateIndex:
     segment = KVLSegmentJSON("example.txt")
     bucket = KVLBucket(segment)
@@ -68,7 +69,7 @@ if testCreateIndex:
     print(bucket.index)
     bucket.segment.flush()
 
-    segment2 = KVLSegmentJSON("example.txt")
+    segment2 = KVLSegmentJSON(segment.filename)
     bucket2 = KVLBucket(segment2)
     index = segment2.createIndex()
     print(index)
@@ -93,4 +94,29 @@ if testRandomRead:
     for i in range (100):
         key = random.choice(foo)
         value = bucket.read(key)
+        print (value)
+
+testJanitorCompact = True
+if testJanitorCompact:
+    segment = KVLSegmentJSON("example.txt")
+    bucket = KVLBucket(segment)
+    janitor = KVLJanitor()
+
+    foo = ['cat', 'dog', 'mouse', 'duck', 'whale','lion','wolf','pangolin','raccoon']
+    
+    for i in range (100000):
+        key = random.choice(foo)
+        value = "population:" + str(random.randint(0,i)*i)
+        bucket.write(key,value)
+    
+    print(bucket.index)
+
+    segment2 = janitor.compactSegmentJSON(bucket.segment)
+    bucket2 = KVLBucket(segment2)
+    index = segment2.createIndex()
+    print(index)
+
+    for i in range (10):
+        key = random.choice(foo)
+        value = bucket2.read(key)
         print (value)

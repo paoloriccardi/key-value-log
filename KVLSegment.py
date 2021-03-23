@@ -1,12 +1,15 @@
 import sys
 
+from datetime import datetime
+
 #Segment with JSON as values delimited by {}
 class KVLSegmentJSON():
     def __init__(self,filename):
+        self.filename = filename
         try:
-            self.file = open(filename,"a+")
+            self.file = open(self.filename,"a+")
         except OSError:
-            print ("Could not open file" + filename + "\n")
+            print ("Could not open file" + self.filename + "\n")
             sys.exit()
     
     def appendKeyValue(self, key, value):
@@ -34,6 +37,25 @@ class KVLSegmentJSON():
                 break
             elementString = elementString + character
         return elementString
+
+    def retrieveValue(self,offset):
+        self.file.seek(offset)
+        valueString = ""
+        scanningValue = False
+        while True:
+            character = self.file.read(1)
+            if not character:
+                break
+            if not scanningValue and character == "{":
+                scanningValue = True
+            elif not scanningValue and character != "{":
+                pass
+            elif scanningValue and character == "}":
+                valueString = valueString 
+                break
+            else:
+                valueString = valueString + character
+        return valueString
     
     def createIndex(self):
         self.file.seek(0)
@@ -64,13 +86,11 @@ class KVLSegmentJSON():
     
     def flush(self):
         #close segment file
-        self.file.close()
-
-    def compact(self):
-        pass
-
+        self.file.close()       
+    
     def getTombstoneValue(self):
         return "{}"
+
 
 #Segment with Lines and \n as element delimiter
 class KVLSegmentLines():
