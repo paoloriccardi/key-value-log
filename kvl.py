@@ -74,7 +74,7 @@ class KVLSegmentJSON():
         #non trivial case, TODO
         return
     
-    def compact():
+    def compact(self):
         pass
 
 #Segment with Lines and \n as element delimiter
@@ -108,8 +108,8 @@ class KVLSegmentLines():
             return index
         #non trivial case, TODO
         return
-        
-    def compact():
+
+    def compact(self):
         pass
 
 
