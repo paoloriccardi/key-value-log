@@ -42,7 +42,6 @@ class KVLSegmentJSON():
             sys.exit()
     
     def appendKeyValue(self, key, value):
-        #\n cannot appear inside either key or value
         elementString = str(key) + ":" + value + ";"
         rwpointer = self.file.tell()
         if rwpointer > 1:
@@ -74,6 +73,9 @@ class KVLSegmentJSON():
             return index
         #non trivial case, TODO
         return
+    
+    def compact():
+        pass
 
 #Segment with Lines and \n as element delimiter
 class KVLSegmentLines():
@@ -106,6 +108,9 @@ class KVLSegmentLines():
             return index
         #non trivial case, TODO
         return
+        
+    def compact():
+        pass
 
 
 #TEST
