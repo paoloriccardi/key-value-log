@@ -28,7 +28,8 @@ class KVLBucket:
         #0 if key is not inside the in-memory index nothing to do
         #1 write a new element appending to segment the couple key:tombstone (key:{})
         #2 updates in-memory index with new offset
-        self.write(key,"{}")
+        tombstone = self.segment.getTombstoneValue()
+        self.write(key,tombstone)
         return  
 
 
@@ -77,6 +78,9 @@ class KVLSegmentJSON():
     def compact(self):
         pass
 
+    def getTombstoneValue(self):
+        return "{}"
+
 #Segment with Lines and \n as element delimiter
 class KVLSegmentLines():
     def __init__(self,filename):
@@ -111,6 +115,9 @@ class KVLSegmentLines():
 
     def compact(self):
         pass
+
+    def getTombstoneValue(self):
+        return ""
 
 
 #TEST
