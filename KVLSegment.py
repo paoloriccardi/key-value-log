@@ -1,3 +1,5 @@
+import sys
+
 #Segment with JSON as values delimited by {}
 class KVLSegmentJSON():
     def __init__(self,filename):

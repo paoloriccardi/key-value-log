@@ -53,7 +53,7 @@ if testBucket:
     print (index)
 
 #CreateIndex with random writes and perform Random Reads on new bucket created from file
-testCreateIndex = True
+testCreateIndex = False
 if testCreateIndex:
     segment = KVLSegmentJSON("example.txt")
     bucket = KVLBucket(segment)
