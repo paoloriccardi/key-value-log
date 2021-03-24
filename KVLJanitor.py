@@ -21,4 +21,8 @@ class KVLJanitor():
 
         return newSegment
         
+    def createBucket(self, filename):
+        segment = KVLSegmentJSON(filename)
+        bucket = KVLBucket(segment) 
+        return bucket
 

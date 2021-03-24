@@ -1,5 +1,3 @@
-import sys
-
 class KVLBucket:
     def __init__(self,segment):
         self.segment = segment
@@ -13,7 +11,7 @@ class KVLBucket:
             print ("some error prevented appending to file")
             return
         self.index[str(key)] = elementOffset
-        return
+        return 
 
     def read(self,key):
         #1 get offset for key location in the segment from the in-memory index

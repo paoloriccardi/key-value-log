@@ -1,11 +1,12 @@
 import sys
+from os import getcwd
 
 from datetime import datetime
 
 #Segment with JSON as values delimited by {}
 class KVLSegmentJSON():
     def __init__(self,filename):
-        self.filename = filename
+        self.filename =  filename
         try:
             self.file = open(self.filename,"a+")
         except OSError:
