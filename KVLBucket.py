@@ -1,3 +1,6 @@
+from datetime import datetime
+import random
+
 class KVLBucket:
     def __init__(self,segment):
         self.segment = segment
@@ -29,5 +32,8 @@ class KVLBucket:
         self.write(key,tombstone)
         return 
 
-
-
+    def reloadSegment(self,newSegment):
+        self.segment.flush()
+        self.segment = newSegment
+        self.index = self.segment.createIndex()
+        return

@@ -96,7 +96,7 @@ if testRandomRead:
         value = bucket.read(key)
         print (value)
 
-testJanitorCompact = True
+testJanitorCompact = False
 if testJanitorCompact:
     segment = KVLSegmentJSON("example.txt")
     bucket = KVLBucket(segment)
@@ -120,3 +120,20 @@ if testJanitorCompact:
         key = random.choice(foo)
         value = bucket2.read(key)
         print (value)
+
+testGenerateRandomDataset = False
+if testGenerateRandomDataset:
+    segment = KVLSegmentJSON("example.txt")
+    bucket = KVLBucket(segment)
+    janitor = KVLJanitor()
+
+    foo = ['Mars', 'Venus', 'Pluto', 'Jupiter', 'Saturn','Moon','Earth','Io','Ganimede','Uranus','Neptune','Callisto','Europa']
+    bar = ['Explorer','Perseverance', 'Endurance', 'Curiosity', 'Pathfinder', 'Viking', 'Voyager', 'Enterprise', 'Discovery']
+    buzz = ['I','II','III','IV','V','VI','VII','VIII','IX','X']
+
+    for i in range (1000000):
+        key = random.choice(foo) + " " + random.choice(bar) + " " + random.choice(buzz)
+        value = "speed:" + str(random.uniform(0.0,100.0))
+        bucket.write(key,value)
+
+    newSegment = janitor.compactSegmentJSON(bucket.segment)

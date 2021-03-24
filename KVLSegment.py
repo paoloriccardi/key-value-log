@@ -1,5 +1,4 @@
 import sys
-from os import getcwd
 
 from datetime import datetime
 

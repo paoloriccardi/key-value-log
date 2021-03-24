@@ -8,7 +8,7 @@ New key:value tuples or new values for keys are just appended to a text file cal
 An in memory index of where is the last updated value for each key is kept and updated for faster reads. 
 The index is a dictionary made of key:offset pairs, where the offset is the position where the last write of the key is located inside the Segment file.
 
-### Basic assumptions and ideas: 
+### Basic assumptions and ideas 
 1. No key:value pair can be deleted once it has been inserted
 2. Pairs are persisted appending them at the end of a textfile
 3. To help reads an in-memory Index is mantained
