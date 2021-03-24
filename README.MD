@@ -1,10 +1,7 @@
-***
 # General info about KeyValueLog
-***
 
 KeyValueLog is a Log based key:value datastore.
 It was made for fun and educational purposes only.
-
 
 ## Overall
 New key:value tuples or new values for keys are just appended to a text file called Segment.
