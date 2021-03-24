@@ -1,27 +1,27 @@
 ***
-#General info about KeyValueLog
+# General info about KeyValueLog
 ***
 
 KeyValueLog is a Log based key:value datastore.
 It was made for fun and educational purposes only.
 
 
-##Overall
+## Overall
 New key:value tuples or new values for keys are just appended to a text file called Segment.
 An in memory index of where is the last updated value for each key is kept and updated for faster reads. 
 The index is a dictionary made of key:offset pairs, where the offset is the position where the last write of the key is located inside the Segment file.
 
-###Basic assumptions and ideas: 
+### Basic assumptions and ideas: 
 1. No key:value pair can be deleted once it has been inserted
 2. Pairs are persisted appending them at the end of a textfile
 3. To help reads an in-memory Index is mantained
 4. We need to read just the most recent key:value pair
 
-##File management
+## File management
 Despite the fact that a read operation returns just the last updated key:value pair, no key:value pair is e ever deleted from Segment files.
 A Segment file can be compacted for practical reason when it reaches a certain size limit, the compaction generates a new Segment file which can be imported in a new Bucket generating a new in-memory index on the compacted Segment file. The older Segment files will be persisted and never touched or midified again.
 
-##Classes entities and modules
+## Classes entities and modules
 A Bucket is the main component of the system. It has a Segment and keeps the in-memory Index. A Bucket provides an interface which allows the following:
 1. write -> append the pair to the Segment file and updates the in-memory Index
 2. read -> returns the pair key,element retrieved directly from the Segment file, using in-memory Index offset for key
