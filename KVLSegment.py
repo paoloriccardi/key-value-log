@@ -1,5 +1,7 @@
 import sys
 
+import json
+
 from datetime import datetime
 
 #Segment with JSON as values delimited by {}
@@ -13,7 +15,12 @@ class KVLSegmentJSON():
             sys.exit()
     
     def appendKeyValue(self, key, value):
-        elementString = str(key) + ":{" + str(value) + "};"
+        if not self.checkValueFormat(value):
+            print (value)
+            print ("json format error in input")
+            exit()
+        #stringValue = json.dumps(value)
+        elementString = str(key) + ":" + value + ";"
         rwpointer = self.file.tell()
         if rwpointer > 1:
             #takes into account element separator ;
@@ -25,6 +32,13 @@ class KVLSegmentJSON():
             return -1
         return rwpointer
     
+    def checkValueFormat(self,value):
+        try:
+            json_object = json.loads(value)
+        except ValueError as e:
+            return False
+        return True
+
     def retrieveElement(self,offset):
         self.file.seek(offset)
         elementString = ""
@@ -47,17 +61,20 @@ class KVLSegmentJSON():
             if not character:
                 break
             if not scanningValue and character == "{":
+                valueString = character
                 scanningValue = True
             elif not scanningValue and character != "{":
                 pass
             elif scanningValue and character == "}":
-                valueString = valueString 
+                valueString = valueString + character
                 break
             else:
                 valueString = valueString + character
         return valueString
     
     def createIndex(self):
+        #scan one char at the time the segment file from beginning to end which is very inefficient
+        #this method should be used only when a consistent/updated version of index is not available (e.g. from an existing bucket)
         self.file.seek(0)
         index = {}
         prevchar = self.file.read(1) 
@@ -84,6 +101,7 @@ class KVLSegmentJSON():
             rwindex = rwindex + 1
         return index
     
+    
     def flush(self):
         #close segment file
         self.file.close()       
@@ -92,41 +110,96 @@ class KVLSegmentJSON():
         return "{}"
 
 
-#Segment with Lines and \n as element delimiter
-class KVLSegmentLines():
+#Segment with value equal to simple value, key:values separated by ;
+class KVLSegmentSimpleValue():
     def __init__(self,filename):
+        self.filename =  filename
         try:
-            self.file = open(filename,"a+")
+            self.file = open(self.filename,"a+")
         except OSError:
-            print ("Could not open file" + filename + "\n")
+            print ("Could not open file" + self.filename + "\n")
             sys.exit()
     
     def appendKeyValue(self, key, value):
-        #\n cannot appear inside either key or value
-        elementString = str(key) + ":" + value + "\n"
+        elementString = str(key) + ":" + str(value) + ";"
         rwpointer = self.file.tell()
+        if rwpointer > 1:
+            #takes into account element separator ;
+            rwpointer = rwpointer 
         try:
             self.file.write(elementString)
         except OSError:
             print ("Could not append Key:Value \n")
             return -1
         return rwpointer
+    
+    def checkValueFormat(self,value):
+        return True
 
     def retrieveElement(self,offset):
         self.file.seek(offset)
-        elementString = self.file.readline()
+        elementString = ""
+        while True:
+            character = self.file.read(1)
+            if not character:
+                break
+            if character == ";":
+                elementString = elementString
+                break
+            elementString = elementString + character
         return elementString
+
+    def retrieveValue(self,offset):
+        self.file.seek(offset)
+        valueString = ""
+        scanningValue = False
+        while True:
+            character = self.file.read(1)
+            if not character:
+                break
+            if not scanningValue and character == ":":
+                scanningValue = True
+            elif not scanningValue and character != ":":
+                pass
+            elif scanningValue and character == ";":
+                valueString = valueString 
+                break
+            else:
+                valueString = valueString + character
+        return valueString
     
     def createIndex(self):
+        #scan one char at the time the segment file from beginning to end which is very inefficient
+        #this method should be used only when a consistent/updated version of index is not available (e.g. from an existing bucket)
+        self.file.seek(0)
         index = {}
         if not self.file.read(1):
             return index
-        #non trivial case, TODO
-        return
-
-    def compact(self):
-        pass
-
+        #non trivial case
+        self.file.seek(0)
+        key = ""
+        scanningKey = True
+        rwindex = 0
+        offset = 0
+        for char in self.file.read():
+            if scanningKey and char == ":":
+                scanningKey = False
+                index[key]=offset 
+                key = ""
+            elif scanningKey and char != ":":
+                key = key + char
+            elif not scanningKey and char != ";":
+                pass
+            elif not scanningKey and char == ";":
+                scanningKey = True
+                offset = rwindex +1
+            rwindex = rwindex + 1
+        return index
+    
+    
+    def flush(self):
+        #close segment file
+        self.file.close()       
+    
     def getTombstoneValue(self):
         return ""
-

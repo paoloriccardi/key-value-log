@@ -19,6 +19,8 @@ class KVLBucket:
     def read(self,key):
         #1 get offset for key location in the segment from the in-memory index
         #2 if we get a valid offset, seek into the segment and return [key,value]
+        if str(key) not in self.index:
+            return 
         elementOffset = self.index[str(key)]
         element = self.segment.retrieveValue(elementOffset)
         return [key,element]
@@ -28,6 +30,8 @@ class KVLBucket:
         #0 if key is not inside the in-memory index nothing to do
         #1 write a new element appending to segment the couple key:tombstone (key:{})
         #2 updates in-memory index with new offset
+        if key not in self.index.keys():
+            return
         tombstone = self.segment.getTombstoneValue()
         self.write(key,tombstone)
         return 

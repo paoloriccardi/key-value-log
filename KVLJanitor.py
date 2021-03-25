@@ -1,5 +1,6 @@
 from KVLBucket import KVLBucket
 from KVLSegment import KVLSegmentJSON
+from KVLSegment import KVLSegmentSimpleValue
 
 from datetime import datetime
 import sys
@@ -14,6 +15,19 @@ class KVLJanitor():
         prefix = now.strftime('%f')
         newFilename = prefix + segment.filename
         newSegment = KVLSegmentJSON(newFilename)
+
+        for key,offset in index.items():
+            value = segment.retrieveValue(offset) 
+            newSegment.appendKeyValue(key,value)
+
+        return newSegment
+
+    def compactSegmentSimpleValue(self,segment):
+        index = segment.createIndex()
+        now = datetime.now()
+        prefix = now.strftime('%f')
+        newFilename = prefix + segment.filename
+        newSegment = KVLSegmentSimpleValue(newFilename)
 
         for key,offset in index.items():
             value = segment.retrieveValue(offset) 

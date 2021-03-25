@@ -1,4 +1,5 @@
 from KVLSegment import KVLSegmentJSON
+from KVLSegment import KVLSegmentSimpleValue
 from KVLBucket import KVLBucket
 from KVLJanitor import KVLJanitor
 
@@ -130,10 +131,44 @@ if testGenerateRandomDataset:
     foo = ['Mars', 'Venus', 'Pluto', 'Jupiter', 'Saturn','Moon','Earth','Io','Ganimede','Uranus','Neptune','Callisto','Europa']
     bar = ['Explorer','Perseverance', 'Endurance', 'Curiosity', 'Pathfinder', 'Viking', 'Voyager', 'Enterprise', 'Discovery']
     buzz = ['I','II','III','IV','V','VI','VII','VIII','IX','X']
+    jsonkey = ['speed','hull','temp']
 
-    for i in range (1000000):
+    for i in range (10000):
         key = random.choice(foo) + " " + random.choice(bar) + " " + random.choice(buzz)
-        value = "speed:" + str(random.uniform(0.0,100.0))
+        value = "{\"speed\":\"" + str(random.uniform(0.0,100.0)) + "\","
+        value = value + "\"hull\":\"" + str(random.uniform(0.0,100.0)) + "\","
+        value = value +"\"temp\":\"" + str(random.uniform(0.0,100.0)) + "\"}"
         bucket.write(key,value)
 
+
     newSegment = janitor.compactSegmentJSON(bucket.segment)
+    bucket2 = KVLBucket(segment)
+    for i in range (10):
+        key = random.choice(foo) + " " + random.choice(bar) + " " + random.choice(buzz)
+        value = bucket2.read(key)
+        print (value)
+
+testRandomDatasetSimpleValue = True
+if testRandomDatasetSimpleValue:
+    segment = KVLSegmentSimpleValue("example.txt")
+    bucket = KVLBucket(segment)
+    janitor = KVLJanitor()
+
+    foo = ['Mars', 'Venus', 'Pluto', 'Jupiter', 'Saturn','Moon','Earth','Io','Ganimede','Uranus','Neptune','Callisto','Europa']
+    bar = ['Explorer','Perseverance', 'Endurance', 'Curiosity', 'Pathfinder', 'Viking', 'Voyager', 'Enterprise', 'Discovery']
+    buzz = ['I','II','III','IV','V','VI','VII','VIII','IX','X']
+
+    for i in range (10000):
+        key = random.choice(foo) + " " + random.choice(bar) + " " + random.choice(buzz)
+        value = str(random.uniform(0.0,100.0))
+        bucket.write(key,value)
+
+
+    newSegment = janitor.compactSegmentSimpleValue(bucket.segment)
+    bucket2 = KVLBucket(newSegment)
+
+
+    for i in range (10):
+        key = random.choice(foo) + " " + random.choice(bar) + " " + random.choice(buzz)
+        value = bucket2.read(key)
+        print (value)
