@@ -2,10 +2,13 @@ import flask
 from flask import request, jsonify, abort
 
 from KVLJanitor import KVLJanitor
+from KVLBucket import KVLBucket
+from KVLSegment import KVLSegmentSimpleValue
+from KVLSegment import KVLSegmentJSON
 
 filename = "example.txt"
-janitor = KVLJanitor()
-bucket = janitor.createBucket(filename)
+segment = KVLSegmentSimpleValue(filename)
+bucket = KVLBucket(segment)
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True

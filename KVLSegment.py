@@ -100,15 +100,44 @@ class KVLSegmentJSON():
             prevchar = char
             rwindex = rwindex + 1
         return index
-    
-    
+         
+    def getTombstoneValue(self):
+        return "{}"
+ 
     def flush(self):
         #close segment file
         self.file.close()       
-    
-    def getTombstoneValue(self):
-        return "{}"
+ 
+    def attachNewFile(self,newFilename):
+        self.filename = newFilename
+        try:
+            self.file = open(self.filename, "a+")
+        except OSError:
+            print ("Could not open file" + newFilename + "\n")
+            sys.exit()
+        
+    def compactSelf(self):
+        now = datetime.now()
+        prefix = now.strftime('%f')
+        newFilename = prefix + self.filename
 
+        inmemoryKV = self.inMemoryKeyValue()
+        self.flush()
+        self.attachNewFile(newFilename)
+
+        for key,value in inmemoryKV.items(): 
+            self.appendKeyValue(key,value)
+
+        newIndex = self.createIndex()
+        return newIndex
+
+    def inMemoryKeyValue(self):
+        KVDict = {}
+        index = self.createIndex()
+        for key,offset in index.items():
+            value = self.retrieveValue(offset) 
+            KVDict[key]=value
+        return KVDict
 
 #Segment with value equal to simple value, key:values separated by ;
 class KVLSegmentSimpleValue():
@@ -133,9 +162,6 @@ class KVLSegmentSimpleValue():
             return -1
         return rwpointer
     
-    def checkValueFormat(self,value):
-        return True
-
     def retrieveElement(self,offset):
         self.file.seek(offset)
         elementString = ""
@@ -196,10 +222,43 @@ class KVLSegmentSimpleValue():
             rwindex = rwindex + 1
         return index
     
-    
+    def getTombstoneValue(self):
+        return ""
+
+    def checkValueFormat(self,value):
+        return True
+
     def flush(self):
         #close segment file
         self.file.close()       
     
-    def getTombstoneValue(self):
-        return ""
+    def attachNewFile(self,newFilename):
+        self.filename = newFilename
+        try:
+            self.file = open(self.filename, "a+")
+        except OSError:
+            print ("Could not open file" + newFilename + "\n")
+            sys.exit()
+        
+    def compactSelf(self):
+        now = datetime.now()
+        prefix = now.strftime('%f')
+        newFilename = prefix + self.filename
+
+        inmemoryKV = self.inMemoryKeyValue()
+        self.flush()
+        self.attachNewFile(newFilename)
+
+        for key,value in inmemoryKV.items(): 
+            self.appendKeyValue(key,value)
+
+        newIndex = self.createIndex()
+        return newIndex
+
+    def inMemoryKeyValue(self):
+        KVDict = {}
+        index = self.createIndex()
+        for key,offset in index.items():
+            value = self.retrieveValue(offset) 
+            KVDict[key]=value
+        return KVDict

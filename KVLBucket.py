@@ -41,3 +41,16 @@ class KVLBucket:
         self.segment = newSegment
         self.index = self.segment.createIndex()
         return
+
+    def compact(self):
+        # asks to his segment to compact
+        # segment.compactSelf returns the index of the new file used by segment 
+        # old index is overwritten by the new one
+        # old segment file is not changed nor modified but persisted on disk
+        
+        newIndex = self.segment.compactSelf()
+        
+        #should verify old index against new index before return
+        self.index = newIndex
+        return True
+
