@@ -7,11 +7,13 @@ from datetime import datetime
 #Segment with JSON as values delimited by {}
 class KVLSegmentJSON():
     def __init__(self,filename):
+        self.homedir = "files/"
         self.filename =  filename
+        self.filepath = self.homedir + self.filename
         try:
-            self.file = open(self.filename,"a+")
+            self.file = open(self.filepath,"a+")
         except OSError:
-            print ("Could not open file" + self.filename + "\n")
+            print ("Could not open file" + self.filepath + "\n")
             sys.exit()
     
     def appendKeyValue(self, key, value):
@@ -34,8 +36,9 @@ class KVLSegmentJSON():
     
     def checkValueFormat(self,value):
         try:
-            json_object = json.loads(value)
+            json.loads(value)
         except ValueError as e:
+            print("Error in JSON format value " + str(e))
             return False
         return True
 
@@ -111,7 +114,8 @@ class KVLSegmentJSON():
     def attachNewFile(self,newFilename):
         self.filename = newFilename
         try:
-            self.file = open(self.filename, "a+")
+            self.filepath = self.homedir + self.filename
+            self.file = open(self.filepath, "a+")
         except OSError:
             print ("Could not open file" + newFilename + "\n")
             sys.exit()
@@ -119,7 +123,7 @@ class KVLSegmentJSON():
     def compactSelf(self):
         now = datetime.now()
         prefix = now.strftime('%f')
-        newFilename = prefix + self.filename
+        newFilename = prefix + self.filename 
 
         inmemoryKV = self.inMemoryKeyValue()
         self.flush()
@@ -142,11 +146,13 @@ class KVLSegmentJSON():
 #Segment with value equal to simple value, key:values separated by ;
 class KVLSegmentSimpleValue():
     def __init__(self,filename):
+        self.homedir = "files/"
         self.filename =  filename
+        self.filepath = self.homedir + self.filename
         try:
-            self.file = open(self.filename,"a+")
+            self.file = open(self.filepath,"a+")
         except OSError:
-            print ("Could not open file" + self.filename + "\n")
+            print ("Could not open file" + self.filepath + "\n")
             sys.exit()
     
     def appendKeyValue(self, key, value):
@@ -235,7 +241,8 @@ class KVLSegmentSimpleValue():
     def attachNewFile(self,newFilename):
         self.filename = newFilename
         try:
-            self.file = open(self.filename, "a+")
+            self.filepath = self.homedir + self.filename
+            self.file = open(self.filepath, "a+")
         except OSError:
             print ("Could not open file" + newFilename + "\n")
             sys.exit()
@@ -244,6 +251,7 @@ class KVLSegmentSimpleValue():
         now = datetime.now()
         prefix = now.strftime('%f')
         newFilename = prefix + self.filename
+        
 
         inmemoryKV = self.inMemoryKeyValue()
         self.flush()

@@ -124,7 +124,7 @@ if testJanitorCompact:
 
 testGenerateRandomDataset = False
 if testGenerateRandomDataset:
-    segment = KVLSegmentJSON("compact.txt")
+    segment = KVLSegmentJSON("segmentfileJSON.txt")
     bucket = KVLBucket(segment)
     janitor = KVLJanitor()
 
@@ -140,17 +140,9 @@ if testGenerateRandomDataset:
         value = value +"\"temp\":\"" + str(random.uniform(0.0,100.0)) + "\"}"
         bucket.write(key,value)
 
-
-    newSegment = janitor.compactSegmentJSON(bucket.segment)
-    bucket2 = KVLBucket(segment)
-    for i in range (10):
-        key = random.choice(foo) + " " + random.choice(bar) + " " + random.choice(buzz)
-        value = bucket2.read(key)
-        print (value)
-
 testRandomDatasetSimpleValue = False
 if testRandomDatasetSimpleValue:
-    segment = KVLSegmentSimpleValue("example.txt")
+    segment = KVLSegmentSimpleValue("segmentfileSV.txt")
     bucket = KVLBucket(segment)
     janitor = KVLJanitor()
 
@@ -163,25 +155,14 @@ if testRandomDatasetSimpleValue:
         value = str(random.uniform(0.0,100.0))
         bucket.write(key,value)
 
-
-    newSegment = janitor.compactSegmentSimpleValue(bucket.segment)
-    bucket2 = KVLBucket(newSegment)
-
-
-    for i in range (10):
-        key = random.choice(foo) + " " + random.choice(bar) + " " + random.choice(buzz)
-        value = bucket2.read(key)
-        print (value)
-
-
 testCompactSegmentJSON = False
 if testCompactSegmentJSON:
-    segment = KVLSegmentJSON("compact.txt")
+    segment = KVLSegmentJSON("segmentfileJSON.txt")
     index = segment.compactSelf()
     print (index)
 
 testCompactSegmentSimpleValue = False
 if testCompactSegmentSimpleValue:
-    segment = KVLSegmentSimpleValue("example.txt")
+    segment = KVLSegmentSimpleValue("segmentfileSV.txt")
     index = segment.compactSelf()
     print (index)
