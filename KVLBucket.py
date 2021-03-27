@@ -36,7 +36,7 @@ class KVLBucket:
         self.write(key,tombstone)
         return 
 
-    def reloadSegment(self,newSegment):
+    def reload(self,newSegment):
         self.segment.flush()
         self.segment = newSegment
         self.index = self.segment.createIndex()
