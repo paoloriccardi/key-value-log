@@ -6,7 +6,7 @@ from KVLBucket import KVLBucket
 from KVLSegment import KVLSegmentSimpleValue
 from KVLSegment import KVLSegmentJSON
 
-filename = "example.txt"
+filename = "segmentfileSV.txt"
 segment = KVLSegmentSimpleValue(filename)
 bucket = KVLBucket(segment)
 
@@ -25,6 +25,11 @@ def heartbeat():
 def index():
     return jsonify(bucket.index)
 
+@app.route('/api/v1/internals/compact/', methods=['GET'])
+def compactSegment():
+    bucket.compact()
+    return jsonify(bucket.index)
+
 @app.route('/api/v1/elements/', methods=['GET'])
 def elementbykey():
     if 'key' in request.args:
@@ -35,7 +40,7 @@ def elementbykey():
     return jsonify(element)
 
 @app.route('/api/v1/elements/', methods=['POST'])
-def append():
+def appendElement():
     if not request.json or not request.json['key'] or not request.json['value']:
         abort(501)
     key = request.json['key']

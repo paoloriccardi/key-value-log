@@ -120,7 +120,7 @@ class KVLSegmentJSON():
             print ("Could not open file" + newFilename + "\n")
             sys.exit()
         
-    def compactSelf(self):
+    def shrinkToNewFile(self):
         now = datetime.now()
         prefix = now.strftime('%f')
         newFilename = prefix + self.filename 
@@ -247,7 +247,7 @@ class KVLSegmentSimpleValue():
             print ("Could not open file" + newFilename + "\n")
             sys.exit()
         
-    def compactSelf(self):
+    def shrinkToNewFile(self):
         now = datetime.now()
         prefix = now.strftime('%f')
         newFilename = prefix + self.filename

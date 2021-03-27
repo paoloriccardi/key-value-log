@@ -48,7 +48,7 @@ class KVLBucket:
         # old index is overwritten by the new one
         # old segment file is not changed nor modified but persisted on disk
         
-        newIndex = self.segment.compactSelf()
+        newIndex = self.segment.shrinkToNewFile()
         
         #should verify old index against new index before return
         self.index = newIndex
