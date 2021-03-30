@@ -1,8 +1,8 @@
 # General info about KeyValueLog Node
 
-KeyValueLog is a Log based key:value datastore.
+KeyValueLog is a Log based *key:value* datastore.
 
-KeyValueLog Node is the node component which hosts the Bucket, the Segment and provides a Rest API.
+KeyValueLog Node is the Node component which hosts the Bucket, the Segment and provides a Rest API.
 
 The core components, Bucket and Segment, are in a dedicated directory together with a files directory, where the segment files will be saved.
 The API relies on Flask and the Node is dockerized for easy of use.
