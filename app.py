@@ -13,7 +13,7 @@ def read():
 
 
 @app.route('/api/v1/register/', methods=['POST'])
-def write():
+def register():
     if not request.json or not request.json['key'] or not request.json['value']:
         abort(501)
     key = request.json['key']
@@ -21,6 +21,22 @@ def write():
     
     return jsonify(key+value)
 
+@app.route('/api/v1/unregister/', methods=['POST'])
+def unregister():
+    if not request.json or not request.json['key'] or not request.json['value']:
+        abort(501)
+    key = request.json['key']
+    value = request.json['value']
+    
+    return jsonify(key+value)
+
+@app.route('/api/v1/nodes/', methods=['GET'])
+def registeredNode():
+    return jsonify("Ok")
+
+@app.route('/api/v1/keys/', methods=['GET'])
+def resolve():
+    return jsonify("Ok")
 
 
 if __name__ == "__main__":
