@@ -1,4 +1,5 @@
 from flask import request, jsonify, abort, Flask
+import json
 
 
 from core.KVLBucket import KVLBucket
@@ -12,7 +13,7 @@ from KVLSegment import KVLSegmentSimpleValue
 from KVLSegment import KVLSegmentJSON
 """
 
-filename = "segmentfileSV.txt"
+filename = "logfile.txt"
 segment = KVLSegmentSimpleValue(filename)
 bucket = KVLBucket(segment)
 
@@ -23,7 +24,7 @@ app.config["DEBUG"] = True
 def home():
     return "<h1>Key Value Log - Bucket</h1>"
 
-@app.route('/api/v1/heartbeat/', methods=['GET'])
+@app.route('/api/v1/internals/heartbeat/', methods=['GET'])
 def heartbeat():
     return jsonify("Alive")
 
@@ -35,6 +36,14 @@ def index():
 def compactSegment():
     bucket.compact()
     return jsonify(bucket.index)
+
+@app.route('/api/v1/internals/initialize', methods=['POST'])
+def initializeBucket():
+    if not request.json:
+        abort(501)
+    kvdict = request.json
+    bucket.initializeBucket(kvdict)    
+    return jsonify("Ok")
 
 @app.route('/api/v1/elements/', methods=['GET'])
 def elementbykey():
@@ -53,6 +62,10 @@ def appendElement():
     value = request.json['value']
     bucket.write(key,value)
     return jsonify("Ok")
+
+
+
+
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5001)

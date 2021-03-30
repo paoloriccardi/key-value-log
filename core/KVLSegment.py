@@ -142,6 +142,9 @@ class KVLSegmentJSON():
         return KVDict
 
     def initializeSegment(self,kvdict):
+        #careful when using this method straight from the API initialize, this method expects a dictionary
+        #in case of nested json in request from the API the situation should be handled before calling
+        #appendKeyValue (where value should be a valid JSON)
         newFilename = self.generateFilename()
         self.file.flush()
         self.attachNewFile(newFilename)
