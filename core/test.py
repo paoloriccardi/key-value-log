@@ -1,6 +1,6 @@
-from KVLBucket import KVLBucket
-from KVLSegment import KVLSegmentJSON
-from KVLSegment import KVLSegmentSimpleValue
+from core.KVLBucket import KVLBucket
+from core.KVLSegment import KVLSegmentJSON
+from core.KVLSegment import KVLSegmentSimpleValue
 
 import random
 import math
