@@ -54,6 +54,6 @@ docker build --tag kvl-docker .
 ```
 In order to run the container, from the same directory you can type:
 ```
-docker run kvl-docker -p 5001:5001 kvl-docker
+docker run --name kvl-docker -p 5001:5001 kvl-docker
 ```
 Please refer to Flask and Docker documentation for any details.
