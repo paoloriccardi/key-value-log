@@ -194,7 +194,7 @@ if testAPI:
     bar = ['Explorer','Perseverance', 'Endurance', 'Curiosity', 'Pathfinder', 'Viking', 'Voyager', 'Enterprise', 'Discovery']
     buzz = ['I','II','III','IV','V','VI','VII','VIII','IX','X']
 
-    for i in range (10000000):
+    for i in range (100):
         key = random.choice(foo) + " " + random.choice(bar) + " " + random.choice(buzz)
         value = str(random.uniform(0.0,100.0))
         kvdictionary[key] = value

@@ -6,13 +6,6 @@ from core.KVLBucket import KVLBucket
 from core.KVLSegment import KVLSegmentSimpleValue
 from core.KVLSegment import KVLSegmentJSON
 
-
-"""
-from KVLBucket import KVLBucket
-from KVLSegment import KVLSegmentSimpleValue
-from KVLSegment import KVLSegmentJSON
-"""
-
 filename = "logfile.txt"
 segment = KVLSegmentSimpleValue(filename)
 bucket = KVLBucket(segment)
@@ -37,7 +30,7 @@ def compactSegment():
     bucket.compact()
     return jsonify(bucket.index)
 
-@app.route('/api/v1/internals/initialize', methods=['POST'])
+@app.route('/api/v1/internals/initialize/', methods=['POST'])
 def initializeBucket():
     if not request.json:
         abort(501)
@@ -46,13 +39,18 @@ def initializeBucket():
     return jsonify("Ok")
 
 @app.route('/api/v1/elements/', methods=['GET'])
-def elementbykey():
+def getElementbykey():
     if 'key' in request.args:
         key = str(request.args['key'])
+        element = bucket.read(key)
+        return jsonify(element)
     else:
-        abort(501)
-    element = bucket.read(key)
-    return jsonify(element)
+        elements = bucket.index
+        keylist = []
+        for key in elements.keys():
+            keylist.append(key)
+        return jsonify(keylist)
+    
 
 @app.route('/api/v1/elements/', methods=['POST'])
 def appendElement():
