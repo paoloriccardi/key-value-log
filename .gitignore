@@ -1,4 +1,4 @@
 *.logs	
-*.txt
+files/*
 *.pyc
 **__pycache__

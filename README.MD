@@ -4,7 +4,7 @@ KeyValueLog is a Log based key:value datastore.
 Actually the core components, are in a dedicated directory together with a files directory, where the segment files will be saved.
 There is a simple Flask powered Rest API, binded to 0.0.0.0 and listening on port 5001, it's located in the main folder together with the files needed to create and spin up a docker container (see below).
 
-*It was made for fun and educational purposes only.*
+*Everything here was made for fun and educational purposes only.*
 
 ## Overall
 New key:value tuples or new values for keys are just appended to a text file called Segment.
