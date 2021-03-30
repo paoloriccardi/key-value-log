@@ -54,3 +54,7 @@ class KVLBucket:
         self.index = newIndex
         return True
 
+    def initializeBucket(self,kvdict):
+        index = self.segment.initializeSegment(kvdict)
+        self.index = index
+        return

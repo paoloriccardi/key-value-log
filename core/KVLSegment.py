@@ -121,11 +121,9 @@ class KVLSegmentJSON():
             sys.exit()
         
     def shrinkToNewFile(self):
-        now = datetime.now()
-        prefix = now.strftime('%f')
-        newFilename = prefix + self.filename 
-
         inmemoryKV = self.inMemoryKeyValue()
+
+        newFilename = self.generateFilename() 
         self.flush()
         self.attachNewFile(newFilename)
 
@@ -142,6 +140,23 @@ class KVLSegmentJSON():
             value = self.retrieveValue(offset) 
             KVDict[key]=value
         return KVDict
+
+    def initializeSegment(self,kvdict):
+        newFilename = self.generateFilename()
+        self.file.flush()
+        self.attachNewFile(newFilename)
+
+        for key,value in kvdict.items():
+            self.appendKeyValue(key,value)
+
+        newIndex = self.createIndex()
+        return newIndex      
+
+    def generateFilename(self):
+        now = datetime.now()
+        prefix = now.strftime('%f')
+        newFilename = prefix + self.filename
+        return newFilename
 
 #Segment with value equal to simple value, key:values separated by ;
 class KVLSegmentSimpleValue():
@@ -248,12 +263,9 @@ class KVLSegmentSimpleValue():
             sys.exit()
         
     def shrinkToNewFile(self):
-        now = datetime.now()
-        prefix = now.strftime('%f')
-        newFilename = prefix + self.filename
-        
-
         inmemoryKV = self.inMemoryKeyValue()
+
+        newFilename = self.generateFilename()
         self.flush()
         self.attachNewFile(newFilename)
 
@@ -270,3 +282,20 @@ class KVLSegmentSimpleValue():
             value = self.retrieveValue(offset) 
             KVDict[key]=value
         return KVDict
+    
+    def initializeSegment(self,kvdict):
+        newFilename = self.generateFilename()
+        self.file.flush()
+        self.attachNewFile(newFilename)
+
+        for key,value in kvdict.items():
+            self.appendKeyValue(key,value)
+
+        newIndex = self.createIndex()
+        return newIndex
+    
+    def generateFilename(self):
+        now = datetime.now()
+        prefix = now.strftime('%f')
+        newFilename = prefix + self.filename
+        return newFilename

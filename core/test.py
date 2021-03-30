@@ -1,7 +1,6 @@
 from KVLSegment import KVLSegmentJSON
 from KVLSegment import KVLSegmentSimpleValue
 from KVLBucket import KVLBucket
-from KVLJanitor import KVLJanitor
 
 import random
 import math
@@ -142,3 +141,44 @@ if testCompactSegmentSimpleValue:
     segment = KVLSegmentSimpleValue("segmentfileSV.txt")
     index = segment.shrinkToNewFile()
     print (index)
+
+
+testInitializeBucketSV = True
+if testInitializeBucketSV:
+    kvdictionary = {}
+    foo = ['Mars', 'Venus', 'Pluto', 'Jupiter', 'Saturn','Moon','Earth','Io','Ganimede','Uranus','Neptune','Callisto','Europa']
+    bar = ['Explorer','Perseverance', 'Endurance', 'Curiosity', 'Pathfinder', 'Viking', 'Voyager', 'Enterprise', 'Discovery']
+    buzz = ['I','II','III','IV','V','VI','VII','VIII','IX','X']
+
+    for i in range (10000):
+        key = random.choice(foo) + " " + random.choice(bar) + " " + random.choice(buzz)
+        value = str(random.uniform(0.0,100.0))
+        kvdictionary[key] = value
+
+    segment = KVLSegmentSimpleValue('testinit.txt')
+    bucket = KVLBucket(segment)
+
+    bucket.initializeBucket(kvdictionary)
+
+    print(bucket.index)
+
+testInitializeBucketJSON = False
+if testInitializeBucketJSON:
+    kvdictionary = {}
+    foo = ['Mars', 'Venus', 'Pluto', 'Jupiter', 'Saturn','Moon','Earth','Io','Ganimede','Uranus','Neptune','Callisto','Europa']
+    bar = ['Explorer','Perseverance', 'Endurance', 'Curiosity', 'Pathfinder', 'Viking', 'Voyager', 'Enterprise', 'Discovery']
+    buzz = ['I','II','III','IV','V','VI','VII','VIII','IX','X']
+
+    for i in range (10000):
+        key = random.choice(foo) + " " + random.choice(bar) + " " + random.choice(buzz)
+        value = "{\"speed\":\"" + str(random.uniform(0.0,100.0)) + "\","
+        value = value + "\"hull\":\"" + str(random.uniform(0.0,100.0)) + "\","
+        value = value +"\"temp\":\"" + str(random.uniform(0.0,100.0)) + "\"}"
+        kvdictionary[key] = value
+
+    segment = KVLSegmentJSON('testinit.txt')
+    bucket = KVLBucket(segment)
+
+    bucket.initializeBucket(kvdictionary)
+
+    print(bucket.index)
