@@ -2,3 +2,6 @@
 core/files/*
 *.pyc
 **__pycache__
+
+#exceptions
+!core/files/segmentfile.txt
