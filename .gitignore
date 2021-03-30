@@ -1,7 +1,7 @@
 *.logs	
-core/files/*
 *.pyc
 **__pycache__
+*txt
 
 #exceptions
-!core/files/segmentfile.txt
+!requirements.txt
