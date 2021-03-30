@@ -1,6 +1,6 @@
+from KVLBucket import KVLBucket
 from KVLSegment import KVLSegmentJSON
 from KVLSegment import KVLSegmentSimpleValue
-from KVLBucket import KVLBucket
 
 import random
 import math
@@ -101,7 +101,6 @@ testGenerateRandomDataset = False
 if testGenerateRandomDataset:
     segment = KVLSegmentJSON("segmentfileJSON.txt")
     bucket = KVLBucket(segment)
-    janitor = KVLJanitor()
 
     foo = ['Mars', 'Venus', 'Pluto', 'Jupiter', 'Saturn','Moon','Earth','Io','Ganimede','Uranus','Neptune','Callisto','Europa']
     bar = ['Explorer','Perseverance', 'Endurance', 'Curiosity', 'Pathfinder', 'Viking', 'Voyager', 'Enterprise', 'Discovery']
@@ -119,7 +118,6 @@ testRandomDatasetSimpleValue = False
 if testRandomDatasetSimpleValue:
     segment = KVLSegmentSimpleValue("segmentfileSV.txt")
     bucket = KVLBucket(segment)
-    janitor = KVLJanitor()
 
     foo = ['Mars', 'Venus', 'Pluto', 'Jupiter', 'Saturn','Moon','Earth','Io','Ganimede','Uranus','Neptune','Callisto','Europa']
     bar = ['Explorer','Perseverance', 'Endurance', 'Curiosity', 'Pathfinder', 'Viking', 'Voyager', 'Enterprise', 'Discovery']
@@ -143,7 +141,7 @@ if testCompactSegmentSimpleValue:
     print (index)
 
 
-testInitializeBucketSV = True
+testInitializeBucketSV = False
 if testInitializeBucketSV:
     kvdictionary = {}
     foo = ['Mars', 'Venus', 'Pluto', 'Jupiter', 'Saturn','Moon','Earth','Io','Ganimede','Uranus','Neptune','Callisto','Europa']
