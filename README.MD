@@ -1,7 +1,10 @@
 # General info about KeyValueLog
 
 KeyValueLog is a Log based key:value datastore.
-It was made for fun and educational purposes only.
+Actually the core components, are in a dedicated directory together with a files directory, where the segment files will be saved.
+There is a simple Flask powered Rest API, binded to 0.0.0.0 and listening on port 5001, it's located in the main folder together with the files needed to create and spin up a docker container (see below).
+
+_ It was made for fun and educational purposes only.
 
 ## Overall
 New key:value tuples or new values for keys are just appended to a text file called Segment.
@@ -43,4 +46,14 @@ An Element: key:value pair, where key is a string and value is a string that eit
 1. represents a JSON object, encapsulated by {} and with element delimiter ;
 2. represents a comma separated list of values, terminated by \n
 
-The Janitor is just a repository that contains utilities functions, often in a temporary fashion.
+## Docker
+The application is containerized. 
+To build the docker image from the Dockerfile you can just type in the main project directory:
+```
+docker build --tag kvl-docker .
+```
+In order to run the container, from the same directory you can type:
+```
+docker run kvl-docker -p 5001:5001 kvl-docker
+```
+Please refer to Flask and Docker documentation for any details.

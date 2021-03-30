@@ -1,8 +1,16 @@
 from flask import request, jsonify, abort, Flask
 
+
+from core.KVLBucket import KVLBucket
+from core.KVLSegment import KVLSegmentSimpleValue
+from core.KVLSegment import KVLSegmentJSON
+
+
+"""
 from KVLBucket import KVLBucket
 from KVLSegment import KVLSegmentSimpleValue
 from KVLSegment import KVLSegmentJSON
+"""
 
 filename = "segmentfileSV.txt"
 segment = KVLSegmentSimpleValue(filename)

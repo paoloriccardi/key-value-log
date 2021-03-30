@@ -1,5 +1,5 @@
 import sys
-
+import os
 import json
 
 from datetime import datetime
@@ -7,7 +7,7 @@ from datetime import datetime
 #Segment with JSON as values delimited by {}
 class KVLSegmentJSON():
     def __init__(self,filename):
-        self.homedir = "files/"
+        self.homedir = os.path.join(os.path.abspath(os.path.dirname(__file__)), "files/")
         self.filename =  filename
         self.filepath = self.homedir + self.filename
         try:
@@ -146,7 +146,7 @@ class KVLSegmentJSON():
 #Segment with value equal to simple value, key:values separated by ;
 class KVLSegmentSimpleValue():
     def __init__(self,filename):
-        self.homedir = "files/"
+        self.homedir = os.path.join(os.path.abspath(os.path.dirname(__file__)), "files/")
         self.filename =  filename
         self.filepath = self.homedir + self.filename
         try:
