@@ -1,7 +1,5 @@
-import flask
-from flask import request, jsonify, abort
+from flask import request, jsonify, abort, Flask
 
-from KVLJanitor import KVLJanitor
 from KVLBucket import KVLBucket
 from KVLSegment import KVLSegmentSimpleValue
 from KVLSegment import KVLSegmentJSON
@@ -10,7 +8,7 @@ filename = "segmentfileSV.txt"
 segment = KVLSegmentSimpleValue(filename)
 bucket = KVLBucket(segment)
 
-app = flask.Flask(__name__)
+app = Flask(__name__)
 app.config["DEBUG"] = True
 
 @app.route('/', methods=['GET'])
@@ -48,4 +46,5 @@ def appendElement():
     bucket.write(key,value)
     return jsonify("Ok")
 
-app.run()
+if __name__ == "__main__":
+    app.run(debug=True, host='0.0.0.0', port=5001)
