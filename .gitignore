@@ -1,4 +1,4 @@
 *.logs	
-files/*
+core/files/*
 *.pyc
 **__pycache__
