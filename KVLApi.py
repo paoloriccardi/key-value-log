@@ -1,5 +1,7 @@
 from flask import request, jsonify, abort, Flask
 import json
+import requests
+import time
 
 
 from core.KVLBucket import KVLBucket
@@ -63,7 +65,15 @@ def appendElement():
 
 
 
-
+serviceRegistryIp = "192.168.112.1"
+serviceRegistryPort = "6001"
+nodeIp = "192.168.112.1"
+nodePort = "5001"
+nodeEndpoint = "http://" + serviceRegistryIp + ":" + serviceRegistryPort + "/api/v1/registry/"
+try:
+    nodeResponse = requests.post(nodeEndpoint,json={"ip":nodeIp,"port":nodePort})
+except Exception as err:
+    print("An error occurred connecting to Registry" + " > " + str(err))   
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5001)
