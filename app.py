@@ -1,7 +1,11 @@
 from flask import request, jsonify, abort, Flask
 import json
 
+from KVLRegistry import KVLRegistry, KVLRegistryEntry
+
 app = Flask(__name__)
+
+registry = KVLRegistry()
 
 @app.route('/')
 def home():
@@ -12,32 +16,39 @@ def read():
     return jsonify("Ok")
 
 
-@app.route('/api/v1/register/', methods=['POST'])
-def register():
-    if not request.json or not request.json['key'] or not request.json['value']:
-        abort(501)
-    key = request.json['key']
-    value = request.json['value']
-    
-    return jsonify(key+value)
-
-@app.route('/api/v1/unregister/', methods=['POST'])
+@app.route('/api/v1/registry/', methods=['DELETE'])
 def unregister():
-    if not request.json or not request.json['key'] or not request.json['value']:
+    if not request.json or not request.json['ip'] or not request.json['port']:
         abort(501)
-    key = request.json['key']
-    value = request.json['value']
+    entry = KVLRegistryEntry(ip,port)
+    if registry.unregister(entry):
+        return jsonify("Node Unregistered")
+    else:
+        abort(501)
     
-    return jsonify(key+value)
+@app.route('/api/v1/registry/', methods=['POST'])
+def register():
+    if not request.json or not request.json['ip'] or not request.json['port']:
+        abort(501)
+    if request.remote_addr != request.json['ip']:
+        abort(501)
+    
+    ip = request.json['ip']
+    port = request.json['port']
 
-@app.route('/api/v1/nodes/', methods=['GET'])
-def registeredNode():
+    entry = KVLRegistryEntry(ip,port)
+    registry.register(entry)
+    
+    return jsonify("Registered")
+
+@app.route('/api/v1/registry/nodes/all/', methods=['GET'])
+def getAll():
     return jsonify("Ok")
 
-@app.route('/api/v1/keys/', methods=['GET'])
-def resolve():
+@app.route('/api/v1/registry/nodes/', methods=['GET'])
+def getNodeDetails():
     return jsonify("Ok")
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5001)
+    app.run(debug=True, host='0.0.0.0', port=6001)
