@@ -9,7 +9,6 @@ class KVLRegistry:
 
     def register(self,regEntry):
         #Nodes can register to the registry (they will try to register at startup)
-
         if regEntry.alreadyRegistered():
             return False
         if regEntry.check():

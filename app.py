@@ -34,10 +34,8 @@ def register():
         abort(501)
     if request.remote_addr != request.json['ip']:
         abort(501)
-    
     ip = request.json['ip']
     port = request.json['port']
-
     entry = KVLRegistryEntry(ip,port)
     registry.register(entry)
     
