@@ -20,6 +20,8 @@ def read():
 def unregister():
     if not request.json or not request.json['ip'] or not request.json['port']:
         abort(501)
+    ip = request.json['ip']
+    port = request.json['port']
     entry = KVLRegistryEntry(ip,port)
     if registry.unregister(entry):
         return jsonify("Node Unregistered")
