@@ -10,7 +10,7 @@ def home():
 @app.route('/api/v1/elements/', methods=['GET'])
 def read():
     if 'key' in request.args:
-        key = str(request.args['ip'])
+        key = str(request.args['key'])
         #call the bucket for the value
         return jsonify(key)
     abort(501)

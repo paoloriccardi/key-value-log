@@ -47,11 +47,16 @@ def getElementbykey():
         element = bucket.read(key)
         return jsonify(element)
     else:
-        elements = bucket.index
-        keylist = []
-        for key in elements.keys():
-            keylist.append(key)
-        return jsonify(keylist)
+        abort(501)
+
+@app.route('/api/v1/elements/all/', methods=['GET'])
+def getAllElements():
+    elements = bucket.index
+    keylist = []
+    for key in elements.keys():
+        keylist.append(key)
+    return jsonify(keylist)
+
     
 
 @app.route('/api/v1/elements/', methods=['POST'])
