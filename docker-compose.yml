@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  registry:
+    build: .
+    ports:
+      - "6001:6001"
+  node1:
+    image: kvl-docker:latest
+    ports:
+      - "5001:5001"
+    depends_on: 
+      - registry
