@@ -14,7 +14,7 @@ My idea is that reinvent the wheel can help to improve the state of the art, whi
 *So please note: Everything here was made for fun and educational purposes only.*
 
 ## Overall
-The core application is pretty simple and can be used as a standalone module made of few python classes but the whole eco-system built around it provides other functionalities to use it in a Service or as a Service.
+The core application is pretty simple, it's made of few python classes and can be used as a standalone module, but the whole eco-system built around it provides other functionalities to use it in a Service or as a Service.
 
 The main components are:
 - KVLNode is the single Node component, it can be accessed via a Rest API which provides the basic operations on the local datastore
