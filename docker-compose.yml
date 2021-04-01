@@ -14,3 +14,12 @@ services:
       - "5001:5001"
     depends_on: 
       - registry
+  gateway:
+    build: 
+      context: ./kvlgateway
+      dockerfile: Dockerfile
+    ports:
+      - "7001:7001"
+    depends_on: 
+      - node1
+  

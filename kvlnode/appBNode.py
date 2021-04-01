@@ -8,7 +8,7 @@ from core.KVLBucket import KVLBucket
 from core.KVLSegment import KVLSegmentSimpleValue
 from core.KVLSegment import KVLSegmentJSON
 
-filename = "logfile2.txt"
+filename = "segmentfile.txt"
 segment = KVLSegmentSimpleValue(filename)
 bucket = KVLBucket(segment)
 

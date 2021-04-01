@@ -23,7 +23,8 @@ class KVLBucket:
             return 
         elementOffset = self.index[str(key)]
         element = self.segment.retrieveValue(elementOffset)
-        return [key,element]
+        kvdict = {'key':key,'value':element}
+        return kvdict 
 
     def delete(self,key):
         #logical deletion only, it will place a tombstone in the segment for the key
