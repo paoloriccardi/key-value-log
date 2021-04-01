@@ -1,5 +1,5 @@
 *.logs	
-core/files/*
+*core/files/*
 *.pyc
 **__pycache__
 
