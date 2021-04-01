@@ -1,6 +1,8 @@
 from flask import request, jsonify, abort, Flask
-import json
-import requests
+
+from KVLGateway import KVLGateway
+
+gw = KVLGateway('registry','6001')
 
 app = Flask(__name__)
 
@@ -12,17 +14,8 @@ def home():
 def read():
     if 'key' not in request.args:
         abort(501)
-
     key = str(request.args['key'])
-    
-    nodeIp = "node1"
-    nodePort = "5001"
-    nodeEndpoint = "http://" + nodeIp + ":" + nodePort + "/api/v1/elements/?key="+key
-    try:
-        nodeResponse = requests.get(nodeEndpoint)
-    except Exception as err:
-        print("An error occurred connecting to Registry" + " > " + str(err))
-
+    nodeResponse = gw.routeReadToNode('node1','5001',key)    
     return jsonify(nodeResponse.json())
     
 @app.route('/api/v1/elements/', methods=['POST'])

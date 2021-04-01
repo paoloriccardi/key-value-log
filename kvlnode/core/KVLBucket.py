@@ -20,7 +20,7 @@ class KVLBucket:
         #1 get offset for key location in the segment from the in-memory index
         #2 if we get a valid offset, seek into the segment and return [key,value]
         if str(key) not in self.index:
-            return 
+            return {}
         elementOffset = self.index[str(key)]
         element = self.segment.retrieveValue(elementOffset)
         kvdict = {'key':key,'value':element}
