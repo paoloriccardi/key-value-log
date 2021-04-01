@@ -69,7 +69,7 @@ class KVLRegistryEntry:
         #check whether the Entry is alive or not
         nodeEndpoint = "http://" + self.ip + ":" + self.port + "/api/v1/internals/heartbeat/"
         result = False
-        for i in range(6):
+        for _ in range(6):
             try:
                 nodeResponse = requests.get(nodeEndpoint)
             except Exception as err:

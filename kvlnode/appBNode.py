@@ -17,7 +17,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def home():
-    return "<h1>Key Value Log - Bucket</h1>"
+    return "KVL Bucket"
 
 @app.route('/api/v1/internals/heartbeat/', methods=['GET'])
 def heartbeat():

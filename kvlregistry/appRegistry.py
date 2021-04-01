@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return jsonify("Hallo world!")
+    return jsonify("KVL Registry")
 
 @app.route('/api/v1/registry/', methods=['DELETE'])
 def unregister():

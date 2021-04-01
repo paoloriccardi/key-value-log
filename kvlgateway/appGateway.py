@@ -5,11 +5,15 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return jsonify("Hallo world!")
+    return jsonify("KVL Gateway!")
 
 @app.route('/api/v1/elements/', methods=['GET'])
 def read():
-    return jsonify("Ok")
+    if 'key' in request.args:
+        key = str(request.args['ip'])
+        #call the bucket for the value
+        return jsonify(key)
+    abort(501)
 
 
 @app.route('/api/v1/elements/', methods=['POST'])
@@ -24,4 +28,4 @@ def write():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=7001)
+    app.run(host='0.0.0.0', port=7001)
