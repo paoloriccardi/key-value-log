@@ -7,7 +7,7 @@ But before we start...
 The only rule I applied throughout this projet is to deliberately reinvent the wheel whenever possible.
 
 To quote a sentence I heard from the wise guy that started Redis: 
->If everybody were faithful to the law "never reinvent the wheel" our modern cars would travel on wooden wheels like the chariots in ancient Rome 
+>If everybody were faithful to the law "never reinvent the wheel" F1 cars would travel on wooden wheels like the chariots in ancient Rome 
 
 My idea is that reinvent the wheel can help to improve the state of the art, which is not the purpose of this project, but it can also improve our awareness on how a wheel is made and how it should work and why. 
 
