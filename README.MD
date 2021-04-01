@@ -3,7 +3,7 @@ KeyValueLog is a Log based *key:value* datastore.
 
 But before we start... 
 
-### A word of caution
+####### A word of caution
 
 The only rule I applied throughout this projet is to deliberately reinvent the wheel whenever possible.
 
