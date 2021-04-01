@@ -3,7 +3,7 @@ KeyValueLog is a Log based *key:value* datastore.
 
 But before we start... 
 
-**A word of caution**
+## A word of caution
 
 The only rule I applied throughout this projet is to deliberately reinvent the wheel whenever possible.
 
@@ -17,9 +17,9 @@ My idea is that reinvent the wheel can help to improve the state of the art, whi
 Its core is pretty simple and can be used as a standalone software module (actually located in *kvlnode/core*) but the whole eco-system built around it provides other functionalities to use it in a Service or as a Service.
 
 The components are:
-1. KVLNode is the single Node component, it can be accessed via a Rest API which provides the basic operations on the local datastore
-2. KVLRegistry is the Service Registry component, it's where available nodes register themselves
-3. KVLGateway is the API Gateway for external clients
+- KVLNode is the single Node component, it can be accessed via a Rest API which provides the basic operations on the local datastore
+- KVLRegistry is the Service Registry component, it's where available nodes register themselves
+- KVLGateway is the API Gateway for external clients
 
 All the APIs at the moment relies purely on Flask.
 
