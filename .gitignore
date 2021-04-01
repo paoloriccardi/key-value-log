@@ -1,0 +1,7 @@
+*.logs	
+*.pyc
+**__pycache__
+*txt
+
+#exceptions
+!requirements.txt
