@@ -1,11 +1,15 @@
 version: "3.9"
 services:
   registry:
-    build: .
+    build: 
+      context: ./kvlregistry
+      dockerfile: Dockerfile
     ports:
       - "6001:6001"
   node1:
-    image: kvl-docker:latest
+    build: 
+      context: ./kvlnode
+      dockerfile: Dockerfile
     ports:
       - "5001:5001"
     depends_on: 
