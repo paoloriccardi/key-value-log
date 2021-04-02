@@ -1,6 +1,7 @@
 from flask import request, jsonify, abort, Flask
 
 from KVLGateway import KVLGateway
+import socket
 
 gw = KVLGateway('registry','6001')
 
@@ -15,7 +16,11 @@ def read():
     if 'key' not in request.args:
         abort(501)
     key = str(request.args['key'])
-    nodeResponse = gw.routeReadToNode('node1','5001',key)    
+
+    nodeHash = gw.routeKeyToNode(key)
+    node = gw.nodes[nodeHash]
+
+    nodeResponse = gw.routeReadToNode(node['ip'],node['port'],key)    
     return jsonify(nodeResponse.json())
     
 @app.route('/api/v1/elements/', methods=['POST'])
@@ -26,6 +31,20 @@ def write():
     value = request.json['value']
     
     return jsonify(key+value)
+
+
+#Private API section
+@app.route('/api/v1/conf/onboard/', methods=['POST'])
+def onboarding():
+    #gwip = socket.gethostbyname(socket.gethostname()) 
+    #clientip = request.remote_addr
+    if not request.json or not request.json['ip'] or not request.json['port'] :
+        abort(501)
+    success = gw.onBoardingNode(request.json['ip'], request.json['port'])
+    if success:
+        return jsonify("Node Added")
+    else:
+        abort(501)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=7001)

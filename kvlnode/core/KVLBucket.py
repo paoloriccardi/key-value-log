@@ -53,7 +53,7 @@ class KVLBucket:
         
         #should verify old index against new index before return
         self.index = newIndex
-        return True
+        return
 
     def initializeBucket(self,kvdict):
         index = self.segment.initializeSegment(kvdict)

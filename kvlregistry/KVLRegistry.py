@@ -13,7 +13,26 @@ class KVLRegistry:
         if self.alreadyRegistered(regEntry):
             return False
         self.registry.append(regEntry)
-        return True
+        
+        gwIp = "gateway"
+        gwPort = "7001"
+
+        nodeIp = regEntry.ip
+        nodePort = regEntry.port
+
+        nodeEndpoint = "http://" + gwIp + ":" + gwPort + "/api/v1/conf/onboard/"
+        head = {'Accept' : 'application/json', 'Content-Type' : 'application/json'}
+        jsondata = json.dumps({'ip':nodeIp,'port':nodePort}) 
+
+        try:
+            nodeResponse = requests.post(nodeEndpoint,data=jsondata,headers=head)
+        except Exception as err:
+            print("An error occurred connecting to Registry" + " > " + str(err))
+            return False
+        if nodeResponse.status_code == 200:
+            return True
+        else:
+            return False
         
     def alreadyRegistered(self,entry):
         for i in range(len(self.registry)):
