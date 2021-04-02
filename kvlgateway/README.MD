@@ -21,6 +21,8 @@ The *Gateway* receives an onboarding request from the Registry (on the private p
 # Serving requests
 When a request for a *key* arrives to the *Gateway* the value of *hash(key)* is calculated. 
 
-If *B[1..n]* is the list of the active buckets, then a *key* belongs to a Bucket *B[i]* if: *hash(key) < hash(B[i])* and there is no other *B[j]* such as *key < hash(B[j]) < hash(B[i])*
+Let *B[1..n]* be the list of the active buckets, then a *key* belongs to a Bucket *B[i]* if both are true: 
+1. *hash(key) < hash(B[i])* 
+2. there is no other *B[j]* such as *key < hash(B[j]) < hash(B[i])*
 
 If there is no *B[i]* such as *hash(key)<B[i]* then *key* will be assigned to the bucket *B[k]* with the lower *hash(B[k])*. 
