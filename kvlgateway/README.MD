@@ -19,4 +19,8 @@ The *Gateway* receives an onboarding request from the Registry (on the private p
    - Insert hash(B_n) in an ordered linked list
 
 # Serving requests
-When a request for a *key* arrives to the *Gateway* the value of hash(key) is calculated and it's compared against the ordered list of the hash for the nodes. A key belongs to a Bucket B if: *hash(key)<hash(B)* and hash(B) is the minimum hash(B_i) to satisfy the inequality for every *Node* B_i. If hash(key) is greather than an hash(B_i) then the key goes under the Node B_j such as hash(B_j) is the smaller hash Node. 
+When a request for a *key* arrives to the *Gateway* the value of *hash(key)* is calculated. 
+
+If *B[1..n]* is the list of the active buckets, then a *key* belongs to a Bucket *B[i]* if: *hash(key) < hash(B[i])* and there is no other *B[j]* such as *key < hash(B[j]) < hash(B[i])*
+
+If there is no *B[i]* such as *hash(key)<B[i]* then *key* will be assigned to the bucket *B[k]* with the lower *hash(B[k])*. 
