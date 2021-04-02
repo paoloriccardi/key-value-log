@@ -11,12 +11,12 @@ He is in charge of request routing, which are based on the requested key (in wri
 The *Gateway* receives an onboarding request from the Registry (on the private part of the API) whenever a new Node join the pool of available nodes, when the onboarding is complete, the Node will start to serve.
 
 ## The Onboarding process
-1. A new *Bucket Node* B_n joins the pool and immediately after startup (to be precise right before bringing up its Flask Api) he contacts the Registry to register;
+1. A new *Bucket Node* *B[n]* joins the pool and immediately after startup (to be precise right before bringing up its Flask Api) he contacts the Registry to register;
 2. The *Registry* receives the request and after some internal check (like, do I already have registered a nod with the same Ip?) he sends an onboarding request to the *Gateway*
 3. The *Gateway* receives the onboarding request and it does the following:
-   - Calculate a hash for B_n
-   - Insert B_n in his internal active node dictionary which has hash(B_n) as key
-   - Insert hash(B_n) in an ordered linked list
+   - Calculate a hash for *B[n]*
+   - Insert *B[n]* in his internal active node dictionary which has *hash(B[n])* as key
+   - Insert *hash(B[n])* in an ordered linked list
 
 # Serving requests
 When a request for a *key* arrives to the *Gateway* the value of *hash(key)* is calculated. 
