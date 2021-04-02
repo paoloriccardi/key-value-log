@@ -18,7 +18,7 @@ The *Gateway* receives an onboarding request from the Registry (on the private p
    - Insert *B[n]* in his internal active node dictionary which has *hash(B[n])* as key
    - Insert *hash(B[n])* in an ordered linked list
 
-# Serving requests
+## Routing keys
 When a request for a *key* arrives to the *Gateway* the value of *hash(key)* is calculated. 
 
 Let *B[1..n]* be the list of the active buckets, then a *key* belongs to a Bucket *B[i]* if both are true: 
