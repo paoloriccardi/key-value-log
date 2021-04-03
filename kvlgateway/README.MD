@@ -1,5 +1,6 @@
-## General info about KeyValueLog Gateway
-KeyValueLog is a Log based *key:value* datastore.
+# General info about KeyValueLog Gateway
+
+At its core KeyValueLog is a Log based *key:value* datastore.
 
 KeyValueLog Gateway is the entry point for every request to a cluster of KVL Nodes.
 

@@ -1,6 +1,6 @@
 # General info about KeyValueLog Node
 
-KeyValueLog is a Log based *key:value* datastore.
+At its core KeyValueLog is a Log based *key:value* datastore.
 
 KeyValueLog Node is the Node component which hosts the Bucket, the Segment and provides a Rest API.
 
