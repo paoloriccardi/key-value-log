@@ -13,7 +13,7 @@ def home():
 @app.route('/api/v1/registry/', methods=['DELETE'])
 def unregister():
     if not request.json or not request.json['ip'] or not request.json['port']:
-        abort(501)
+        abort(400)
     ip = request.json['ip']
     port = request.json['port']
     entry = KVLRegistryEntry(ip,port)

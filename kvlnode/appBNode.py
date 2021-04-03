@@ -35,7 +35,7 @@ def compactSegment():
 @app.route('/api/v1/internals/initialize/', methods=['POST'])
 def initializeBucket():
     if not request.json:
-        abort(501)
+        abort(400)
     kvdict = request.json
     bucket.initializeBucket(kvdict)    
     return jsonify("Ok")
@@ -62,7 +62,7 @@ def getAllElements():
 @app.route('/api/v1/elements/', methods=['POST'])
 def appendElement():
     if not request.json or not request.json['key'] or not request.json['value']:
-        abort(501)
+        abort(400)
     key = request.json['key']
     value = request.json['value']
     bucket.write(key,value)

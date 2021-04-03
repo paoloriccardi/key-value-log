@@ -19,6 +19,23 @@ class KVLGateway:
             print("An error occurred connecting to Registry" + " > " + str(err))
             return {}
         
+    def routeWriteToNode(self,nodeIp,nodePort,kvdict):
+        ip= nodeIp
+        port = nodePort
+
+        nodeEndpoint = "http://" + ip + ":" + port + "/api/v1/elements/"
+        head = {'Accept' : 'application/json', 'Content-Type' : 'application/json'}
+        key = kvdict['key']
+        value = kvdict['value']
+        jsondata = json.dumps({'key':key,'value':value}) 
+
+        try:
+            nodeResponse = requests.post(nodeEndpoint,data=jsondata,headers=head)
+            return nodeResponse
+        except Exception as err:
+            print("An error occurred routing request to Node" + " > " + str(err))
+            return {} 
+
     def hashAsInt(self,value):
         h = hashlib.md5(value.encode())
         hdigest =  h.hexdigest()
@@ -51,7 +68,7 @@ class KVLGateway:
         else:
             return False
 
-    def routeKeyToNode(self,key):
+    def resolveKeyToNode(self,key):
         hkey = self.hashAsInt(key)
         for hvalue in self.hnodeorderedlist:
             if hkey < hvalue:

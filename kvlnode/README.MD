@@ -45,7 +45,7 @@ There are two concrete implementations of Segment:
 2. Simple Value
 
 ## File management
-The active Segment file can be compacted for practical reason when it reaches a certain size limit. The compaction of a Segment involves:
+The active Segment file can be compacted for practical reasons when it reaches a certain size limit. The compaction of a Segment involves:
 1. The bucket asks to his segment to compact itself
 2. The segment detach the old file and create a new one, where he will happen only the most recent version of overy *key:value*
 3. The segment will return to his bucket a newly generated Index to be stored in memory for future queries

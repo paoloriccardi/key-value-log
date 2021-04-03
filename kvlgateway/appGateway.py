@@ -14,10 +14,11 @@ def home():
 @app.route('/api/v1/elements/', methods=['GET'])
 def read():
     if 'key' not in request.args:
-        abort(501)
+        abort(400)
     key = str(request.args['key'])
 
-    nodeHash = gw.routeKeyToNode(key)
+    #node routing
+    nodeHash = gw.resolveKeyToNode(key)
     node = gw.nodes[nodeHash]
 
     nodeResponse = gw.routeReadToNode(node['ip'],node['port'],key)    
@@ -26,11 +27,18 @@ def read():
 @app.route('/api/v1/elements/', methods=['POST'])
 def write():
     if not request.json or not request.json['key'] or not request.json['value']:
+        abort(400)
+    kvdict = {'key':request.json['key'],'value':request.json['value']}
+
+    #node routing
+    nodeHash = gw.resolveKeyToNode(kvdict['key'])
+    node = gw.nodes[nodeHash]
+
+    nodeResponse = gw.routeWriteToNode(node['ip'],node['port'],kvdict)
+    if nodeResponse.status_code == 200:
+        return jsonify(nodeResponse.json())
+    else:
         abort(501)
-    key = request.json['key']
-    value = request.json['value']
-    
-    return jsonify(key+value)
 
 
 #Private API section
@@ -39,7 +47,7 @@ def onboarding():
     #gwip = socket.gethostbyname(socket.gethostname()) 
     #clientip = request.remote_addr
     if not request.json or not request.json['ip'] or not request.json['port'] :
-        abort(501)
+        abort(400)
     success = gw.onBoardingNode(request.json['ip'], request.json['port'])
     if success:
         return jsonify("Node Added")
