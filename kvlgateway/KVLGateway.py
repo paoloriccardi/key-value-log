@@ -41,6 +41,25 @@ class KVLGateway:
         hdigest =  h.hexdigest()
         return int(hdigest,16)
  
+    def gatherListOfKeys(self):
+        listofkeys = []
+        for node in self.nodes.values():
+            nodekeys = self.getKeysFromNode(node['ip'],node['port'])
+            listofkeys = listofkeys + nodekeys
+        return listofkeys
+
+    def getKeysFromNode(self,nodeIp,nodePort):
+        nodeEndpoint = "http://" + nodeIp + ":" + nodePort + "/api/v1/elements/all/"
+        try:
+            nodeResponse = requests.get(nodeEndpoint)
+            listofkeys = []
+            for key in nodeResponse.json():
+                listofkeys.append(key)
+            return listofkeys
+        except Exception as err:
+            print("An error occurred connecting to Registry" + " > " + str(err))
+            return []
+
 
     def onBoardingNode(self,nodeIp,nodePort):
         now = datetime.now()

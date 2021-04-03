@@ -42,3 +42,4 @@ The *docker-compose.yml* file helps building a basic system with node and regist
 ```
 docker-compose up --build
 ```
+This will bring up a *Gateway* instance, a *Registry* instance and two *Bucket Node* instances. To test the write/read operations, there is a *test.py* in the root directory which writes some *key:value* pairs just to make things more interesting. If you launch the script once the containers are all up you will see in the containers console that the writes will take place alternating the two nodes.

@@ -41,6 +41,16 @@ def write():
         abort(501)
 
 
+@app.route('/api/v1/internals/nodes', methods=['GET'])
+def internalNodes():
+    return jsonify(gw.nodes)
+
+@app.route('/api/v1/elements/all/', methods=['GET'])
+def getAllElements():
+    keys = gw.gatherListOfKeys()
+    return jsonify(keys)
+
+
 #Private API section
 @app.route('/api/v1/conf/onboard/', methods=['POST'])
 def onboarding():

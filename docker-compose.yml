@@ -1,11 +1,21 @@
 version: "3.9"
 services:
+  gateway:
+    build: 
+      context: ./kvlgateway
+      dockerfile: Dockerfile
+    ports:
+      - "7001:7001"
+
   registry:
     build: 
       context: ./kvlregistry
       dockerfile: Dockerfile
     ports:
       - "6001:6001"
+    depends_on:
+      - gateway
+
   node1:
     build: 
       context: ./kvlnode
@@ -14,12 +24,12 @@ services:
       - "5001:5001"
     depends_on: 
       - registry
-  gateway:
+  node2:
     build: 
-      context: ./kvlgateway
+      context: ./kvlnode
       dockerfile: Dockerfile
     ports:
-      - "7001:7001"
+      - "5002:5001"
     depends_on: 
-      - node1
+      - registry
   

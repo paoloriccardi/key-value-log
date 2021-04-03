@@ -87,6 +87,7 @@ if not standaloneInstance:
         print("An error occurred connecting to Registry" + " > " + str(err))
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=nodePort)
+    #app.run(host="0.0.0.0", port=nodePort)
+    app.run(host=nodeIp, port=nodePort)
 
   

@@ -11,6 +11,14 @@ He is in charge of request routing, which are based on the requested key (in wri
 
 The *Gateway* receives an onboarding request from the Registry (on the private part of the API) whenever a new Node join the pool of available nodes, when the onboarding is complete, the Node will start to serve.
 
+## Gateway main functionality
+The *Gateway* is a *facade* for the *Bucket Nodes* of the network, which means it provides an interface for clients so that they don't have to worry anymore about how and where the keys are stored or retrieved.
+
+To make things easier to use the gateway tries to mimic the interface of the Nodes, so the main endpoints will be:
+- `GET /api/v1/elements/all/` to retrieve the list of all the keys recorded so far
+- `GET /api/v1/elements/?key=<KeyToRetrieve>` to retrieve a specific *key:value* pair
+- `POST /api/v1/elements/` to add a new *key:value* pair (posted as JSON object)
+
 ## The Onboarding process
 1. A new *Bucket Node* *B[n]* joins the pool and immediately after startup (to be precise right before bringing up its Flask Api) he contacts the Registry to register;
 2. The *Registry* receives the request and after some internal check (like, do I already have registered a nod with the same Ip?) he sends an onboarding request to the *Gateway*
@@ -19,7 +27,7 @@ The *Gateway* receives an onboarding request from the Registry (on the private p
    - Insert *B[n]* in his internal active node dictionary which has *hash(B[n])* as key
    - Insert *hash(B[n])* in an ordered linked list
 
-## Routing keys
+## Routing the keys
 When a request for a *key* arrives to the *Gateway* the value of *hash(key)* is calculated. 
 
 Let *B[1..n]* be the list of the active buckets, then a *key* belongs to a Bucket *B[i]* if both are true: 
@@ -27,3 +35,4 @@ Let *B[1..n]* be the list of the active buckets, then a *key* belongs to a Bucke
 2. there is no other *B[j]* such as *key < hash(B[j]) < hash(B[i])*
 
 If there is no *B[i]* such as *hash(key)<B[i]* then *key* will be assigned to the bucket *B[k]* with the lower *hash(B[k])*. 
+
