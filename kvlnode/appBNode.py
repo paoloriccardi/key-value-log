@@ -86,7 +86,7 @@ def sendRegistration(ip,port):
     jsondata = json.dumps({'ip':ip,'port':port}) 
 
     try:
-        nodeResponse = requests.post(nodeEndpoint,data=jsondata,headers=head)
+        requests.post(nodeEndpoint,data=jsondata,headers=head)
     except Exception as err:
         print("An error occurred connecting to Registry" + " > " + str(err))
 
