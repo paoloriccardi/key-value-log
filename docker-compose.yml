@@ -32,4 +32,27 @@ services:
       - "5002:5001"
     depends_on: 
       - registry
-  
+  node3:
+    build: 
+      context: ./kvlnode
+      dockerfile: Dockerfile
+    ports:
+      - "5003:5001"
+    depends_on: 
+      - registry  
+  node4:
+    build: 
+      context: ./kvlnode
+      dockerfile: Dockerfile
+    ports:
+      - "5004:5001"
+    depends_on: 
+      - registry
+  node5:
+    build: 
+      context: ./kvlnode
+      dockerfile: Dockerfile
+    ports:
+      - "5005:5001"
+    depends_on: 
+      - registry

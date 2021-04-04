@@ -10,9 +10,9 @@ if testAPI:
     headers = {'Accept' : 'application/json', 'Content-Type' : 'application/json'}
     
     kvdictionary = {}
-    foo = ['Mars', 'Venus', 'Pluto', 'Jupiter', 'Saturn','Moon','Earth','Io','Ganimede','Uranus','Neptune','Callisto','Europa']
-    bar = ['Explorer','Perseverance', 'Endurance', 'Curiosity', 'Pathfinder', 'Viking', 'Voyager', 'Enterprise', 'Discovery']
-    buzz = ['I','II','III','IV','V','VI','VII','VIII','IX','X']
+    foo = ['Mars', 'Venus', 'Pluto', 'Jupiter', 'Saturn','Moon','Io','Ganimede','Uranus','Neptune','Callisto','Europa','Phobos','Deimos','Titan','Mercury','Triton','Eris','Titania','Oberon','Rhea',]
+    bar = ['Explorer','Perseverance', 'Endurance', 'Curiosity', 'Pathfinder', 'Viking', 'Voyager', 'Enterprise', 'Discovery', 'Beagle','Phoenix','Lander','Ingenuity','Elite']
+    buzz = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV']
 
     for i in range (10000):
         key = random.choice(foo) + " " + random.choice(bar) + " " + random.choice(buzz)

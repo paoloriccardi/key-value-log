@@ -40,15 +40,22 @@ def write():
     else:
         abort(501)
 
+@app.route('/api/v1/elements/all/', methods=['GET'])
+def getAllElements():
+    keys = gw.gatherAllKeys()
+    return jsonify(keys)
 
-@app.route('/api/v1/internals/nodes', methods=['GET'])
+
+@app.route('/api/v1/internals/nodes/', methods=['GET'])
 def internalNodes():
     return jsonify(gw.nodes)
 
-@app.route('/api/v1/elements/all/', methods=['GET'])
-def getAllElements():
-    keys = gw.gatherListOfKeys()
-    return jsonify(keys)
+@app.route('/api/v1/internals/nodes/keydistribution/', methods=['GET'])
+def internalKeyDistribution():
+    response = {}
+    for key,node in gw.nodes.items():
+        response[key] = len(gw.getKeysFromNode(node['ip'],node['port']))
+    return jsonify(response)
 
 
 #Private API section
