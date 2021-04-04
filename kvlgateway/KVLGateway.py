@@ -14,7 +14,7 @@ class KVLGateway:
         nodeEndpoint = "http://" + nodeIp + ":" + nodePort + "/api/v1/elements/?key="+key
         try:
             nodeResponse = requests.get(nodeEndpoint)
-            return nodeResponse
+            return nodeResponse.json()
         except Exception as err:
             print("An error occurred connecting to Registry" + " > " + str(err))
             return {}
@@ -31,10 +31,10 @@ class KVLGateway:
 
         try:
             nodeResponse = requests.post(nodeEndpoint,data=jsondata,headers=head)
-            return nodeResponse
+            return nodeResponse.json()
         except Exception as err:
             print("An error occurred routing request to Node" + " > " + str(err))
-            return {} 
+            return {}
 
     def hashAsInt(self,value):
         # one should consider how evenly the python md5 algo distributes his output
@@ -80,12 +80,13 @@ class KVLGateway:
     def moveKey(self,key,node_origin,node_destination):
         # read key from node_origin and write it to node_destination
         # useful to migrate groups of keys from an old node to a new one
-        element = self.routeReadToNode(node_origin['ip'],node_origin['port'],key)
-        nodeResponse = self.routeWriteToNode(node_destination['ip'],node_destination['port'],element)
-        if  nodeResponse.status_code == 200:
-            return True
-        else:
-            return False      
+        readResponse = self.routeReadToNode(node_origin['ip'],node_origin['port'],key)
+        if readResponse != {}:
+            writeResponse = self.routeWriteToNode(node_destination['ip'],node_destination['port'],readResponse)
+            if writeResponse != {}:
+                return True
+        return False 
+      
 
 
     def onBoardingNode(self,nodeIp,nodePort):
@@ -110,11 +111,14 @@ class KVLGateway:
                     secondhalf = ordered_hash[i:]
                     firsthalf.append(hashnode)
                     ordered_hash = firsthalf + secondhalf
-                    impacted_node_hash = secondhalf[0]
+                    if i ==len(ordered_hash) -1:
+                        impacted_node_hash = ordered_hash[0]
+                    else:
+                        impacted_node_hash = secondhalf[0]
                     break
                 elif ordered_hash[i] <= hashnode and i == len(ordered_hash) - 1:
-                    ordered_hash.append(hashnode)
                     impacted_node_hash = ordered_hash[0]
+                    ordered_hash.append(hashnode)
                     break
             
             origin = self.nodes[impacted_node_hash]

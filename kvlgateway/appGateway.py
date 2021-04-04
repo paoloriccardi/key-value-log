@@ -21,8 +21,8 @@ def read():
     nodeHash = gw.resolveKeyToNode(key)
     node = gw.nodes[nodeHash]
 
-    nodeResponse = gw.routeReadToNode(node['ip'],node['port'],key)    
-    return jsonify(nodeResponse.json())
+    jsonResponse = gw.routeReadToNode(node['ip'],node['port'],key)    
+    return jsonify(jsonResponse)
     
 @app.route('/api/v1/elements/', methods=['POST'])
 def write():
@@ -34,9 +34,9 @@ def write():
     nodeHash = gw.resolveKeyToNode(kvdict['key'])
     node = gw.nodes[nodeHash]
 
-    nodeResponse = gw.routeWriteToNode(node['ip'],node['port'],kvdict)
-    if nodeResponse.status_code == 200:
-        return jsonify(nodeResponse.json())
+    jsonResponse = gw.routeWriteToNode(node['ip'],node['port'],kvdict)
+    if jsonResponse != {} :
+        return jsonify(jsonResponse)
     else:
         abort(501)
 
@@ -61,8 +61,6 @@ def internalKeyDistribution():
 #Private API section
 @app.route('/api/v1/conf/onboard/', methods=['POST'])
 def onboarding():
-    #gwip = socket.gethostbyname(socket.gethostname()) 
-    #clientip = request.remote_addr
     if not request.json or not request.json['ip'] or not request.json['port'] :
         abort(400)
     success = gw.onBoardingNode(request.json['ip'], request.json['port'])

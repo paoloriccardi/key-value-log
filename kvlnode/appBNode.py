@@ -3,6 +3,8 @@ import json
 import requests
 import socket
 
+from threading import Timer
+
 
 from core.KVLBucket import KVLBucket
 from core.KVLSegment import KVLSegmentSimpleValue
@@ -68,26 +70,33 @@ def appendElement():
     bucket.write(key,value)
     return jsonify("Ok")
 
-#In case of use with KVLRegistry and KVLGateway standaloneInstance is False
-standaloneInstance = False
-if not standaloneInstance:
+
+
+
+nodeIp = str(socket.gethostbyname(socket.gethostname()))
+nodePort = "5001"
+
+#Callback for the registration to the Registry
+def sendRegistration(ip,port):
     serviceRegistryIp = "registry"
     serviceRegistryPort = "6001"
 
-    nodeIp = str(socket.gethostbyname(socket.gethostname()))
-    nodePort = "5001"
-
     nodeEndpoint = "http://" + serviceRegistryIp + ":" + serviceRegistryPort + "/api/v1/registry/"
     head = {'Accept' : 'application/json', 'Content-Type' : 'application/json'}
-    jsondata = json.dumps({'ip':nodeIp,'port':nodePort}) 
+    jsondata = json.dumps({'ip':ip,'port':port}) 
 
     try:
         nodeResponse = requests.post(nodeEndpoint,data=jsondata,headers=head)
     except Exception as err:
         print("An error occurred connecting to Registry" + " > " + str(err))
 
+#send registration (hopefully) after node's API has started
+networkInstance = True
+if networkInstance:
+    t = Timer(60.0,sendRegistration,[nodeIp,nodePort])
+    t.start()
+
+
 if __name__ == "__main__":
     #app.run(host="0.0.0.0", port=nodePort)
     app.run(host=nodeIp, port=nodePort)
-
-  

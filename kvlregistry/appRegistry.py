@@ -29,7 +29,8 @@ def register():
     ip = request.json['ip']
     port = request.json['port']
     entry = KVLRegistryEntry(ip,port)
-    success = serviceR.register(entry) # register tries to connect to Gateway to complete the onboarding of the node
+    success = serviceR.register(entry) 
+    # register tries to connect to Gateway to complete the onboarding of the node
     if success:
         return jsonify("Registered")
     else:
